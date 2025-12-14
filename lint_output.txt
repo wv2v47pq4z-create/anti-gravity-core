@@ -1,0 +1,92 @@
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\App.tsx
+  135:33  warning  The ref value 'scheduledSourcesRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'scheduledSourcesRef.current' to a variable inside the effect, and use that variable in the cleanup function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react-hooks/exhaustive-deps
+  199:39  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\App.tsx:199:39
+  197 |                         </div>
+  198 |                         <PulseVisualizer
+> 199 |                             analyser={analyserRef.current}
+      |                                       ^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  200 |                             mode={visMode}
+  201 |                             isActive={connectionState === ConnectionState.CONNECTED}
+  202 |                             isResonating={isResonating}  react-hooks/refs
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\components\LogPanel.tsx
+  57:44  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\components\LogPanel.tsx:57:44
+  55 |             <div className="p-2 border-t border-cyan-900/30 bg-slate-950 text-[10px] text-slate-600 flex justify-between">
+  56 |                 <span>API: {modelName}</span>
+> 57 |                 <span>LATENCY: {Math.floor(Math.random() * 20 + 10)}ms</span>
+     |                                            ^^^^^^^^^^^^^ Cannot call impure function
+  58 |             </div>
+  59 |         </aside>
+  60 |     );  react-hooks/purity
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\hooks\useAudioRecorder.ts
+  17:77  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  73:23  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\hooks\useAudioRecorder.ts:73:23
+  71 |         stopRecording,
+  72 |         isRecording,
+> 73 |         inputContext: inputContextRef.current
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  74 |     };
+  75 | }
+  76 |  react-hooks/refs
+  73:23  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\hooks\useAudioRecorder.ts:73:23
+  71 |         stopRecording,
+  72 |         isRecording,
+> 73 |         inputContext: inputContextRef.current
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  74 |     };
+  75 | }
+  76 |  react-hooks/refs
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\hooks\useZacConnection.ts
+    1:41  warning  'useEffect' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   29:46  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+   55:73  warning  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  @typescript-eslint/no-explicit-any
+  146:23  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\hooks\useZacConnection.ts:146:23
+  144 |         connectionState,
+  145 |         logs,
+> 146 |         audioContext: audioContextRef.current
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  147 |     };
+  148 | }
+  149 |  react-hooks/refs
+  146:23  error    Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\hooks\useZacConnection.ts:146:23
+  144 |         connectionState,
+  145 |         logs,
+> 146 |         audioContext: audioContextRef.current
+      |                       ^^^^^^^^^^^^^^^^^^^^^^^ Cannot access ref value during render
+  147 |     };
+  148 | }
+  149 |  react-hooks/refs
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\vite.config.ts
+  2:24  warning  'loadEnv' is defined but never used                                     @typescript-eslint/no-unused-vars
+  5:32  warning  'mode' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+✖ 13 problems (6 errors, 7 warnings)
+

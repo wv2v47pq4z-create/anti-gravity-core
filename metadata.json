@@ -1,0 +1,7 @@
+{
+  "name": "Google Anti-Gravity Core",
+  "description": "G.A.C. Protocol v2.0 - A zero-gravity cognitive interface powered by Gemini Live API.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

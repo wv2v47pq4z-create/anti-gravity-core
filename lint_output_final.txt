@@ -1,0 +1,35 @@
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\App.tsx
+   90:13  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\App.tsx:90:13
+  88 |             newAnalyser.connect(audioContext.destination);
+  89 |
+> 90 |             setAnalyser(newAnalyser);
+     |             ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  91 |         }
+  92 |     }, [audioContext, config.volume]);
+  93 |  react-hooks/set-state-in-effect
+  137:33  warning  The ref value 'scheduledSourcesRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'scheduledSourcesRef.current' to a variable inside the effect, and use that variable in the cleanup function                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/exhaustive-deps
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\hooks\useAudioRecorder.ts
+  20:77  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:40  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\hooks\useZacConnection.ts
+   1:41  warning  'useEffect' is defined but never used     @typescript-eslint/no-unused-vars
+  30:46  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  57:73  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\Ai MARKETING\.gemini\antigravity\scratch\ai-app\vite.config.ts
+  2:24  warning  'loadEnv' is defined but never used                                     @typescript-eslint/no-unused-vars
+  5:32  warning  'mode' is defined but never used. Allowed unused args must match /^_/u  @typescript-eslint/no-unused-vars
+
+✖ 9 problems (1 error, 8 warnings)
+
