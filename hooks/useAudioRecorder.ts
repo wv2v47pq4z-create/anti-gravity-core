@@ -17,7 +17,7 @@ export function useAudioRecorder(
         try {
             let ctx = inputContextRef.current;
             if (!ctx) {
-                const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+                const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
                 ctx = new AudioContextClass({ sampleRate: 16000 });
                 inputContextRef.current = ctx;
                 setInputContext(ctx);

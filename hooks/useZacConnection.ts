@@ -54,7 +54,7 @@ export function useZacConnection(
         // Init output audio context if needed
         let ctx = audioContextRef.current;
         if (!ctx) {
-            const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+            const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
             ctx = new AudioContextClass({ sampleRate: 24000 });
             audioContextRef.current = ctx;
             setAudioContext(ctx);
