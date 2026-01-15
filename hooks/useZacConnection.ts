@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import { GoogleGenAI, LiveServerMessage, Modality, Session } from '@google/genai';
-import { ConnectionState, LogEntry, ZacConfig } from '../types';
+import { ConnectionState, LogEntry, ZacConfig, WebkitWindow } from '../types';
 import { decodeAudioData } from '../utils/audioUtils';
 
 // Constants
@@ -54,7 +54,7 @@ export function useZacConnection(
         // Init output audio context if needed
         let ctx = audioContextRef.current;
         if (!ctx) {
-            const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+            const AudioContextClass = window.AudioContext || (window as WebkitWindow).webkitAudioContext;
             ctx = new AudioContextClass({ sampleRate: 24000 });
             audioContextRef.current = ctx;
             setAudioContext(ctx);

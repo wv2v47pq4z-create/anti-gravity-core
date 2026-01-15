@@ -1,5 +1,6 @@
 import { useRef, useCallback, useState } from 'react';
 import { createPCMBlob } from '../utils/audioUtils';
+import { WebkitWindow } from '../types';
 
 export function useAudioRecorder(
     onAudioData: (pcmBlob: Blob, rms: number) => void,
@@ -17,7 +18,7 @@ export function useAudioRecorder(
         try {
             let ctx = inputContextRef.current;
             if (!ctx) {
-                const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+                const AudioContextClass = window.AudioContext || (window as WebkitWindow).webkitAudioContext;
                 ctx = new AudioContextClass({ sampleRate: 16000 });
                 inputContextRef.current = ctx;
                 setInputContext(ctx);

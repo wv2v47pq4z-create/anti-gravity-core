@@ -5,6 +5,11 @@ export enum ConnectionState {
   ERROR = 'ERROR'
 }
 
+// Webkit browser compatibility
+export interface WebkitWindow extends Window {
+  webkitAudioContext: typeof AudioContext;
+}
+
 export interface AudioFrequencyData {
   values: Uint8Array;
   average: number;
