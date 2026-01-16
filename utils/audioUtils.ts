@@ -20,21 +20,28 @@ export function arrayBufferToBase64(buffer: ArrayBuffer): string {
 }
 
 /**
+ * Adds padding to a base64 string if needed
+ * @param base64 - Base64 string that may be missing padding
+ * @returns Base64 string with proper padding
+ */
+function addBase64Padding(base64: string): string {
+  const padding = base64.length % 4;
+  if (padding > 0) {
+    return base64 + '='.repeat(4 - padding);
+  }
+  return base64;
+}
+
+/**
  * Converts a URL-safe base64 string to standard base64
  * @param urlSafeBase64 - URL-safe base64 string (using - and _ instead of + and /)
  * @returns Standard base64 string
  */
 export function urlSafeBase64ToStandard(urlSafeBase64: string): string {
   // Replace URL-safe characters with standard base64 characters
-  let base64 = urlSafeBase64.replace(/-/g, '+').replace(/_/g, '/');
-  
+  const base64 = urlSafeBase64.replace(/-/g, '+').replace(/_/g, '/');
   // Add padding if needed
-  const padding = base64.length % 4;
-  if (padding > 0) {
-    base64 += '='.repeat(4 - padding);
-  }
-  
-  return base64;
+  return addBase64Padding(base64);
 }
 
 /**
@@ -52,10 +59,10 @@ export function standardBase64ToUrlSafe(base64: string): string {
  * @returns ArrayBuffer containing the decoded data
  */
 export function base64ToArrayBuffer(base64: string): ArrayBuffer {
-  // Convert URL-safe base64 to standard if needed
-  // URL-safe base64 uses - and _ instead of + and /
-  const hasUrlSafeChars = base64.includes('-') || base64.includes('_');
-  const hasStandardChars = base64.includes('+') || base64.includes('/');
+  // Use regex for efficient single-pass detection of base64 type
+  // URL-safe base64 has - or _ and lacks + or /
+  const hasUrlSafeChars = /[-_]/.test(base64);
+  const hasStandardChars = /[+/]/.test(base64);
   
   // If it has URL-safe chars and no standard chars, convert it
   const standardBase64 = hasUrlSafeChars && !hasStandardChars
@@ -64,13 +71,9 @@ export function base64ToArrayBuffer(base64: string): ArrayBuffer {
   
   // urlSafeBase64ToStandard already adds padding, but handle cases where
   // standard base64 might be missing padding too
-  let paddedBase64 = standardBase64;
-  if (!standardBase64.endsWith('=')) {
-    const padding = standardBase64.length % 4;
-    if (padding > 0) {
-      paddedBase64 += '='.repeat(4 - padding);
-    }
-  }
+  const paddedBase64 = standardBase64.endsWith('=') 
+    ? standardBase64 
+    : addBase64Padding(standardBase64);
   
   const binaryString = atob(paddedBase64);
   const len = binaryString.length;
