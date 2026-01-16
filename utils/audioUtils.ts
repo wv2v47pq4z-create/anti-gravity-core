@@ -19,8 +19,60 @@ export function arrayBufferToBase64(buffer: ArrayBuffer): string {
   return btoa(binary);
 }
 
+/**
+ * Adds padding to a base64 string if needed
+ * @param base64 - Base64 string that may be missing padding
+ * @returns Base64 string with proper padding
+ */
+export function addBase64Padding(base64: string): string {
+  const padding = base64.length % 4;
+  if (padding > 0) {
+    return base64 + '='.repeat(4 - padding);
+  }
+  return base64;
+}
+
+/**
+ * Converts a URL-safe base64 string to standard base64
+ * @param urlSafeBase64 - URL-safe base64 string (using - and _ instead of + and /)
+ * @returns Standard base64 string
+ */
+export function urlSafeBase64ToStandard(urlSafeBase64: string): string {
+  // Replace URL-safe characters with standard base64 characters
+  const base64 = urlSafeBase64.replace(/-/g, '+').replace(/_/g, '/');
+  // Add padding if needed
+  return addBase64Padding(base64);
+}
+
+/**
+ * Converts a standard base64 string to URL-safe base64
+ * @param base64 - Standard base64 string
+ * @returns URL-safe base64 string (without padding)
+ */
+export function standardBase64ToUrlSafe(base64: string): string {
+  return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+/**
+ * Converts base64 string (standard or URL-safe) to ArrayBuffer
+ * @param base64 - Base64 string (can be standard or URL-safe format)
+ * @returns ArrayBuffer containing the decoded data
+ */
 export function base64ToArrayBuffer(base64: string): ArrayBuffer {
-  const binaryString = atob(base64);
+  // Use regex for efficient single-pass detection of base64 type
+  // URL-safe base64 has - or _ and lacks + or /
+  const hasUrlSafeChars = /[-_]/.test(base64);
+  const hasStandardChars = /[+/]/.test(base64);
+  
+  // If it has URL-safe chars and no standard chars, convert it
+  const standardBase64 = hasUrlSafeChars && !hasStandardChars
+    ? urlSafeBase64ToStandard(base64) 
+    : base64;
+  
+  // Ensure padding is present (addBase64Padding is idempotent)
+  const paddedBase64 = addBase64Padding(standardBase64);
+  
+  const binaryString = atob(paddedBase64);
   const len = binaryString.length;
   const bytes = new Uint8Array(len);
   for (let i = 0; i < len; i++) {
