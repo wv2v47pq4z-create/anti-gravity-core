@@ -53,15 +53,23 @@ export function standardBase64ToUrlSafe(base64: string): string {
  */
 export function base64ToArrayBuffer(base64: string): ArrayBuffer {
   // Convert URL-safe base64 to standard if needed
-  const standardBase64 = base64.includes('-') || base64.includes('_') 
+  // URL-safe base64 uses - and _ instead of + and /
+  const hasUrlSafeChars = base64.includes('-') || base64.includes('_');
+  const hasStandardChars = base64.includes('+') || base64.includes('/');
+  
+  // If it has URL-safe chars and no standard chars, convert it
+  const standardBase64 = hasUrlSafeChars && !hasStandardChars
     ? urlSafeBase64ToStandard(base64) 
     : base64;
   
-  // Add padding if missing for standard base64
+  // urlSafeBase64ToStandard already adds padding, but handle cases where
+  // standard base64 might be missing padding too
   let paddedBase64 = standardBase64;
-  const padding = standardBase64.length % 4;
-  if (padding > 0 && !standardBase64.endsWith('=')) {
-    paddedBase64 += '='.repeat(4 - padding);
+  if (!standardBase64.endsWith('=')) {
+    const padding = standardBase64.length % 4;
+    if (padding > 0) {
+      paddedBase64 += '='.repeat(4 - padding);
+    }
   }
   
   const binaryString = atob(paddedBase64);
